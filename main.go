@@ -64,6 +64,10 @@ func getStatuses(country string, statuses []string) (statusMap map[string]int, e
 		statusMap[d.Status] = d.Country.Cases
 	}
 	close(countryChan)
+
+	// calculate active
+	statusMap["active"] = statusMap["confirmed"] - (statusMap["recovered"] + statusMap["deaths"])
+
 	return statusMap, nil
 }
 
@@ -79,7 +83,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	for _, status := range statuses {
-		fmt.Printf("%-10s-%9d\n", status, statusMap[status])
+	for k, v := range statusMap {
+		fmt.Printf("%-10s-%9d\n", k, v)
 	}
 }
