@@ -63,6 +63,7 @@ func getStatuses(country string, statuses []string) (statusMap map[string]int, e
 		}
 		statusMap[d.Status] = d.Country.Cases
 	}
+	close(countryChan)
 	return statusMap, nil
 }
 
